@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware("hacked")->get('/test', 'CPUController@getCPUs');
+Route::get('/get/cpus', 'CPUController@getCPUs');
+Route::post('/user/login', 'LoginController@Login');
+Route::post('/user/create','LoginController@CreateUser');
