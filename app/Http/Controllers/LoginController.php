@@ -14,6 +14,14 @@ class LoginController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
         $name = $request->get('name');
+        $previousUser = User::where('email', $email)->first();
+        if ($previousUser) {
+            return [
+                'success' => false,
+                'data' => null,
+                'message' => "Email {$email} đã được sử dụng!"
+            ];
+        }
         $userModel = User::create(array(
             'email' => $email,
             'password' => Hash::make($password),
@@ -25,10 +33,10 @@ class LoginController extends Controller
                 'data' => $userModel
             ];
         }
-            return [
-                'success' => false,
-                'data' => null
-            ];
+        return [
+            'success' => false,
+            'data' => null
+        ];
     }
 
     public function Login(Request $request)
