@@ -35,7 +35,8 @@ class LoginController extends Controller
         }
         return [
             'success' => false,
-            'data' => null
+            'data' => null,
+            'message' => "Have an error!"
         ];
     }
 

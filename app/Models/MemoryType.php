@@ -1,12 +1,12 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VGA extends Model {
-    protected $table = 'vgas';
+class MemoryType extends Model
+{
+    protected $table = 'memory_types';
     public $timestamps = false;
     protected $guarded = [];
-    protected $primaryKey = 'vga_id';
+    protected $primaryKey = 'memory_type_id';
 }

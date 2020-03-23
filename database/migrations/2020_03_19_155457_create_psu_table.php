@@ -18,7 +18,7 @@ class CreatePsuTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->string('brand');
-            $table->string('size');
+            $table->unsignedInteger('size');
             $table->string('efficiency_rating');
             $table->unsignedInteger('price');
             $table->text('description');

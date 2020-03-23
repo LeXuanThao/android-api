@@ -8,5 +8,6 @@ class RAM extends Model {
     protected $table = 'rams';
     public $timestamps = false;
     protected $guarded = [];
+    protected $primaryKey = 'ram_id';
 }
 

@@ -8,4 +8,5 @@ class HDD extends Model {
     protected $table = 'hdds';
     public $timestamps = false;
     protected $guarded = [];
+    protected $primaryKey = 'hdd_id';
 }
