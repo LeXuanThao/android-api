@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 class BuilderController extends Controller
 {
     public function getCPUs(Request $request) {
-//        dd(DB::select("SELECT * FROM cpus c LEFT JOIN cpu_support_memory_types csp ON csp.cpu_id = c.cpu_id LEFT JOIN memory_types mt ON mt.memory_type_id = csp.memory_type_id"));
         $filter = $request->all();
         $query = CPU::query()->with(['memory_types']);
         $ram_id = $filter['ram_id'] ?? NULL;
