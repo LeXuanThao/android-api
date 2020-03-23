@@ -17,6 +17,7 @@ class CreateRamTable extends Migration
             $table->increments('ram_id');
             $table->string('name');
             $table->string('image');
+            $table->string('size');
             $table->string('brand');
             $table->string('bus');
             $table->unsignedInteger('memory_type_id');

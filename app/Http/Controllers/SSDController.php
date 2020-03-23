@@ -10,6 +10,14 @@ class SSDController extends Controller
     public function getSSDs(Request $request)
     {
         $ssds = SSD::all();
-        return $ssds;
+        return $this->makeResponse(true, $ssds);
+    }
+
+    protected function makeResponse($success = false, $data = array())
+    {
+        return array(
+            'success' => $success,
+            'data' => $data
+        );
     }
 }

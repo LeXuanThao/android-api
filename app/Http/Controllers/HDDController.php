@@ -10,6 +10,14 @@ class HDDController extends Controller
     public function getHDDs(Request $request)
     {
         $hdds = HDD::all();
-        return $hdds;
+        return $this->makeResponse(true, $hdds);
+    }
+
+    protected function makeResponse($success = false, $data = array())
+    {
+        return array(
+            'success' => $success,
+            'data' => $data
+        );
     }
 }
