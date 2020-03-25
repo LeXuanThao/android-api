@@ -9,9 +9,17 @@ class CASEController extends Controller
 {
     public function getCASEs(Request $request)
     {
-
-        $cases = CASES::all();
-        return $this->makeResponse(true, $cases);
+        $filter = $request->all();
+        $case_id = $filter['case_id'] ?? NULL;
+        if ($case_id)
+        {
+            $case = CASES::where('case_id', $case_id)->get();
+        }
+        else
+        {
+            $case = CASES::all();
+        }
+        return $this->makeResponse(true, $case);
     }
 
     protected function makeResponse($success = false, $data = array())

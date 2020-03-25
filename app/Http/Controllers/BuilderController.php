@@ -17,26 +17,32 @@ class BuilderController extends Controller
         $query = CPU::query()->with(['memory_types']);
         $ram_id = $filter['ram_id'] ?? NULL;
         $main_id = $filter['main_id'] ?? NULL;
-        if ($ram_id) {
-            $ram_model = RAM::find($ram_id);
-            if (!$ram_model) {
-                return $this->makeResponse();
-            }
-            $memory_type_id = $ram_model->memory_type_id ?? NULL;
-            if ($memory_type_id) {
-                $query->whereHas('memory_types', function ($subQuery) use ($memory_type_id) {
-                    $subQuery->where('memory_types.memory_type_id', $memory_type_id);
-                });
-            }
+        $cpu_id = $filter['cpu_id'] ?? NULL;
+        if ($cpu_id) {
+            $query->where('cpu_id', $cpu_id);
         }
-        if ($main_id) {
-            $main_model = MAIN::find($main_id);
-            if (!$main_model) {
-                return $this->makeResponse();
+        else{
+            if ($ram_id) {
+                $ram_model = RAM::find($ram_id);
+                if (!$ram_model) {
+                    return $this->makeResponse();
+                }
+                $memory_type_id = $ram_model->memory_type_id ?? NULL;
+                if ($memory_type_id) {
+                    $query->whereHas('memory_types', function ($subQuery) use ($memory_type_id) {
+                        $subQuery->where('memory_types.memory_type_id', $memory_type_id);
+                    });
+                }
             }
-            $socket = $main_model->socket ?? NULL;
-            if ($socket) {
-                $query->where('socket', $socket);
+            if ($main_id) {
+                $main_model = MAIN::find($main_id);
+                if (!$main_model) {
+                    return $this->makeResponse();
+                }
+                $socket = $main_model->socket ?? NULL;
+                if ($socket) {
+                    $query->where('socket', $socket);
+                }
             }
         }
         $cpu = $query->get();
@@ -46,31 +52,38 @@ class BuilderController extends Controller
     public function getMAINs(Request $request)
     {
         $filter = $request->all();
-        $cpu_id = $filter['cpu_id'];
-        $ram_id = $filter['ram_id'];
+        $cpu_id = $filter['cpu_id'] ?? NULL;
+        $ram_id = $filter['ram_id'] ?? NULL;
+        $main_id = $filter['main_id'] ?? NULL;
         $query = MAIN::query();
-        if ($cpu_id) {
-            $cpu_model = CPU::with(['memory_types'])->find($cpu_id);
-            if (!$cpu_model) {
-                return $this->makeResponse();
-            }
-            $supported_memory_types = $cpu_model->memory_types->pluck('memory_type_id') ?? NULL;
-            if ($supported_memory_types) {
-                $query->whereIn('memory_type_id', $supported_memory_types);
-            }
-            $socket = $cpu_model->socket ?? NULL;
-            if ($socket) {
-                $query->where('socket', $socket);
-            }
+        if ($main_id)
+        {
+            $query->where('main_id', $main_id);
         }
-        if ($ram_id) {
-            $ram_model = RAM::find($ram_id);
-            if (!$ram_model) {
-                return $this->makeResponse();
+        else{
+            if ($cpu_id) {
+                $cpu_model = CPU::with(['memory_types'])->find($cpu_id);
+                if (!$cpu_model) {
+                    return $this->makeResponse();
+                }
+                $supported_memory_types = $cpu_model->memory_types->pluck('memory_type_id') ?? NULL;
+                if ($supported_memory_types) {
+                    $query->whereIn('memory_type_id', $supported_memory_types);
+                }
+                $socket = $cpu_model->socket ?? NULL;
+                if ($socket) {
+                    $query->where('socket', $socket);
+                }
             }
-            $ram_memory_type_id = $ram_model->memory_type_id ?? NULL;
-            if ($ram_memory_type_id) {
-                $query->where('memory_type_id', $ram_memory_type_id);
+            if ($ram_id) {
+                $ram_model = RAM::find($ram_id);
+                if (!$ram_model) {
+                    return $this->makeResponse();
+                }
+                $ram_memory_type_id = $ram_model->memory_type_id ?? NULL;
+                if ($ram_memory_type_id) {
+                    $query->where('memory_type_id', $ram_memory_type_id);
+                }
             }
         }
         $main = $query->get();
@@ -80,27 +93,34 @@ class BuilderController extends Controller
     public function getRAMs(Request $request)
     {
         $filter = $request->all();
-        $cpu_id = $filter['cpu_id'];
-        $main_id = $filter['main_id'];
+        $cpu_id = $filter['cpu_id'] ?? NULL;
+        $main_id = $filter['main_id'] ?? NULL;
+        $ram_id = $filter['ram_id'] ?? NULL;
         $query = RAM::query();
-        if ($cpu_id){
-            $cpu_model = CPU::with(['memory_types'])->find($cpu_id);
-            if (!$cpu_model) {
-                return $this->makeResponse();
-            }
-            $supported_memory_types = $cpu_model->memory_types->pluck('memory_type_id') ?? NULL;
-            if ($supported_memory_types) {
-                $query->whereIn('memory_type_id', $supported_memory_types);
-            }
+        if ($ram_id)
+        {
+            $query->where('ram_id', $ram_id);
         }
-        if ($main_id){
-            $main_model = MAIN::find($main_id);
-            if (!$main_model) {
-                return $this->makeResponse();
+        else{
+            if ($cpu_id){
+                $cpu_model = CPU::with(['memory_types'])->find($cpu_id);
+                if (!$cpu_model) {
+                    return $this->makeResponse();
+                }
+                $supported_memory_types = $cpu_model->memory_types->pluck('memory_type_id') ?? NULL;
+                if ($supported_memory_types) {
+                    $query->whereIn('memory_type_id', $supported_memory_types);
+                }
             }
-            $main_memory_type_id = $main_model->memory_type_id ?? NULL;
-            if ($main_memory_type_id){
-                $query->where('memory_type_id', $main_memory_type_id);
+            if ($main_id){
+                $main_model = MAIN::find($main_id);
+                if (!$main_model) {
+                    return $this->makeResponse();
+                }
+                $main_memory_type_id = $main_model->memory_type_id ?? NULL;
+                if ($main_memory_type_id){
+                    $query->where('memory_type_id', $main_memory_type_id);
+                }
             }
         }
         $ram = $query->get();
@@ -109,22 +129,44 @@ class BuilderController extends Controller
 
     public function getVGAs(Request $request)
     {
-        $vga = VGA::all();
+        $filter = $request->all();
+        $psu_id = $filter['psu_id'] ?? NULL;
+        $vga_id = $filter['vga_id'] ?? NULL;
+        if ($vga_id) {
+            $vga = VGA::where('vga_id', $vga_id)->get();
+        }
+        else{
+            if ($psu_id == null)
+            {
+                $vga = VGA::all();
+            }
+            else {
+                $psu_model = PSU::find($psu_id);
+                $vga = VGA::where('min_power', '<=', $psu_model->size)->get();
+            }
+        }
         return $this->makeResponse(true, $vga);
     }
 
     public function getPSUs(Request $request)
     {
         $filter = $request->all();
-        $vga = $filter['vga_id'];
-        if ($vga == null)
+        $vga_id = $filter['vga_id'] ?? NULL;
+        $psu_id = $filter['psu_id'] ?? NULL;
+        if ($psu_id)
         {
-            $psu = PSU::all();
+            $psu = PSU::where('psu_id', $psu_id)->get();
         }
         else
         {
-            $vga_model = VGA::find($vga);
-            $psu = PSU::where('size', '>', $vga_model->min_power)->get();
+            if ($vga_id == null)
+            {
+                $psu = PSU::all();
+            }
+            else {
+                $vga_model = VGA::find($vga_id);
+                $psu = PSU::where('size', '>=', $vga_model->min_power)->get();
+            }
         }
         return $this->makeResponse(true, $psu);
     }
