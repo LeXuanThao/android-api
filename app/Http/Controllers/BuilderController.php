@@ -188,51 +188,51 @@ class BuilderController extends Controller
         $main_id = $filter['main_id'] ?? NULL;
         $vga_id = $filter['vga_id'] ?? NULL;
         $psu_id = $filter['psu_id'] ?? NULL;
-        $ssd_id = $filter['ssd_id'] ?? NULL;
         $hdd_id = $filter['hdd_id'] ?? NULL;
+        $ssd_id = $filter['ssd_id'] ?? NULL;
         $case_id = $filter['case_id'] ?? NULL;
 
         $response = array(
-            'cpu' => null,
-            'ram' => null,
-            'main' => null,
-            'vga' => null,
-            'psu' => null,
-            'ssd' => null,
-            'hdd' => null,
-            'case' => null
+            0 => null,
+            1 => null,
+            2 => null,
+            3 => null,
+            4 => null,
+            5 => null,
+            6 => null,
+            7 => null
         );
 
         if ($cpu_id) {
-            $response['cpu'] = CPU::find($cpu_id);
+            $response[0] = CPU::find($cpu_id);
         }
 
         if ($ram_id) {
-            $response['ram'] = RAM::find($ram_id);
+            $response[1] = RAM::find($ram_id);
         }
 
         if ($main_id) {
-            $response['main'] = MAIN::find($main_id);
+            $response[2] = MAIN::find($main_id);
         }
 
         if ($vga_id) {
-            $response['vga'] = VGA::find($vga_id);
+            $response[3] = VGA::find($vga_id);
         }
 
         if ($psu_id) {
-            $response['psu'] = PSU::find($psu_id);
+            $response[4] = PSU::find($psu_id);
         }
 
         if ($ssd_id) {
-            $response['ssd'] = SSD::find($ssd_id);
+            $response[6] = SSD::find($ssd_id);
         }
 
         if ($hdd_id) {
-            $response['hdd'] = HDD::find($hdd_id);
+            $response[5] = HDD::find($hdd_id);
         }
 
         if ($case_id) {
-            $response['case'] = CASES::find($case_id);
+            $response[7] = CASES::find($case_id);
         }
         return $this->makeResponse(true, $response);
     }
