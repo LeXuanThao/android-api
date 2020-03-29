@@ -26,6 +26,7 @@ class CreateRecommendPcTable extends Migration
             $table->unsignedInteger('hdd_id');
             $table->unsignedInteger('ssd_id');
             $table->unsignedInteger('case_id');
+            $table->unsignedInteger('price');
             $table->text('description');
         });
     }
