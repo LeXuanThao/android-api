@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CASES extends Model {
-    protected $table = 'cases';
+class RecommendPC extends Model {
+    protected $table = 'recommend_pc';
     public $timestamps = false;
     protected $guarded = [];
-    protected $primaryKey = 'case_id';
+    protected $primaryKey = 'pc_id';
 }
