@@ -28,3 +28,4 @@ Route::post('/get/cases', 'CASEController@getCASEs');
 Route::post('/user/login', 'LoginController@Login');
 Route::post('/user/create','LoginController@CreateUser');
 Route::post('/get/cart', 'BuilderController@getCart');
+Route::post('/get/pc', 'RecommendPCController@getRecommendPC');
